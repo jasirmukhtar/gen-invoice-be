@@ -13,6 +13,15 @@ public class InvoiceConverter {
                 invoiceDate(invoiceDTO.getInvoiceDate()).
                 amount(invoiceDTO.getAmount()).
                 build();
+    }
 
+    public static InvoiceDTO toDTO(InvoiceEntity invoice){
+
+        return InvoiceDTO.builder().
+                firstName(invoice.getFirstName()).
+                lastName(invoice.getLastName()).
+                invoiceDate(invoice.getInvoiceDate()).
+                amount(invoice.getAmount()).
+                build();
     }
 }
