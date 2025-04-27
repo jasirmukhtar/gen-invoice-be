@@ -1,16 +1,25 @@
 package com.example.GenInvoiceApp.Controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.GenInvoiceApp.DTO.InvoiceDTO;
+import com.example.GenInvoiceApp.Service.InvoiceService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("api/home")
+@RequestMapping("api/invoice")
+@AllArgsConstructor
 public class InvoiceController {
 
-    @GetMapping
-    public String HelloWorld(){
-        return "Hello World from BE";
+    private final InvoiceService invoiceService;
+
+    @PostMapping
+    public String saveInvoice(@RequestBody InvoiceDTO invoiceDTO){
+        invoiceService.saveInvoice(invoiceDTO);
+        return "Saved Invoice";
+
     }
 
 }
