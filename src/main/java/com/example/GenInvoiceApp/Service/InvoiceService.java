@@ -5,14 +5,11 @@ import com.example.GenInvoiceApp.DTO.InvoiceDTO;
 import com.example.GenInvoiceApp.DTO.InvoiceRangeDTO;
 import com.example.GenInvoiceApp.Models.InvoiceEntity;
 import com.example.GenInvoiceApp.Repository.InvoiceRepository;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Data
@@ -24,17 +21,12 @@ public class InvoiceService {
     public void saveInvoice(InvoiceDTO invoiceDTO) {
         InvoiceEntity newInvoice = InvoiceConverter.toEntity(invoiceDTO);
         invoiceRepository.save(newInvoice);
-
     }
 
-    public List<InvoiceDTO> getInvoicesByDateRange(InvoiceRangeDTO invoiceRangeDTO) {
-        List<InvoiceEntity> invoiceEntities = invoiceRepository.
-                findByInvoiceDateBetween(invoiceRangeDTO.getFrom(),
-                        invoiceRangeDTO.getTo());
+    public Page<InvoiceDTO> getInvoicesByDateRange(InvoiceRangeDTO invoiceRangeDTO, Pageable pageable) {
 
-        return invoiceEntities.stream().
-                map(InvoiceConverter::toDTO)
-                .collect(Collectors.toList());
-
+        Page<InvoiceEntity> invoiceEntities = invoiceRepository.
+                findByInvoiceDateBetween(invoiceRangeDTO.getFrom(), invoiceRangeDTO.getTo(),pageable);
+        return invoiceEntities.map(InvoiceConverter::toDTO);
     }
 }
