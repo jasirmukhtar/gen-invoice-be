@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/invoice")
 @RequiredArgsConstructor
@@ -27,5 +29,9 @@ public class InvoiceController {
                                                   @PageableDefault(page = 0, size = 20)Pageable pageable){
 
         return invoiceService.getInvoicesByDateRange(invoiceRangeDTO, pageable);
+    }
+    @GetMapping("/search/{search}")
+    public List<InvoiceDTO> getInvoicesBySearch(@PathVariable String search) {
+        return invoiceService.getInvoiceBySearch(search);
     }
 }

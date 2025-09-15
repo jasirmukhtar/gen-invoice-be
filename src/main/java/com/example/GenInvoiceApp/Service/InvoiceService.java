@@ -11,6 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Data
 @AllArgsConstructor
@@ -28,5 +31,11 @@ public class InvoiceService {
         Page<InvoiceEntity> invoiceEntities = invoiceRepository.
                 findByInvoiceDateBetween(invoiceRangeDTO.getFrom(), invoiceRangeDTO.getTo(),pageable);
         return invoiceEntities.map(InvoiceConverter::toDTO);
+    }
+
+    public List<InvoiceDTO> getInvoiceBySearch(String search) {
+
+        List<InvoiceEntity> invoiceEntities = invoiceRepository.findInvoiceBySearch(search);
+        return invoiceEntities.stream().map(InvoiceConverter::toDTO).collect(Collectors.toList());
     }
 }
